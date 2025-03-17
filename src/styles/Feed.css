@@ -1,0 +1,10 @@
+.feed-container {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.feed {
+  max-width: 600px; /* Ajusta según necesites */
+  width: 100%;
+}
