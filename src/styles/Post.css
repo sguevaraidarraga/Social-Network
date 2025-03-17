@@ -123,6 +123,10 @@
   cursor: pointer;
 }
 
+.icon.liked {
+  color: #e0245e;
+}
+
 .big-heart {
   position: absolute;
   top: 50%;
