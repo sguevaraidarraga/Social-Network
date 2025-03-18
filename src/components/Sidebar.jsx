@@ -19,7 +19,10 @@ function Sidebar() {
       {/* Profile Section - Fixed at the Bottom */}
       <div className="sidebar-profile">
         <li className="profile-item">
-          <img src="https://randomuser.me/api/portraits/men/1.jpg" alt="User" className="profile-image" /> Profile
+          <div className="profile-content">
+            <img src="https://randomuser.me/api/portraits/men/1.jpg" alt="User" className="profile-image" />
+            <span className="profile-text">Profile</span>
+          </div>
           <FaBars className="options-icon" onClick={() => setShowLogout(!showLogout)} />
         </li>
         {showLogout && (
