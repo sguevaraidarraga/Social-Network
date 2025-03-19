@@ -1,5 +1,6 @@
 import React from "react";
 import Post from "./Post";
+import "../styles/Feed.css";
 
 function Feed() {
   const posts = [
@@ -20,17 +21,19 @@ function Feed() {
   ];    
 
   return (
-    <div className="feed">
-      {posts.map((post, index) => (
-        <Post 
-          key={index} 
-          name={post.name}
-          username={post.username} 
-          userImage={post.userImage} 
-          postImage={post.postImage} 
-          description={post.description} 
-        />
-      ))}
+    <div className="feed-container">
+      <div className="feed">
+        {posts.map((post, index) => (
+          <Post 
+            key={index} 
+            name={post.name}
+            username={post.username} 
+            userImage={post.userImage} 
+            postImage={post.postImage} 
+            description={post.description} 
+          />
+        ))}
+      </div>
     </div>
   );
 }

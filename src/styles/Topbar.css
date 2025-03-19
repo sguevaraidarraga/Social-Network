@@ -1,0 +1,82 @@
+/* Barra superior fija */
+.topbar {
+  width: 100%;
+  height: 60px;
+  background: white;
+  box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+}
+
+/* Izquierda (Nombre de la página) */
+.topbar-left {
+  flex: 1; /* Ocupa el espacio disponible sin afectar el centro */
+  display: flex;
+  align-items: center;
+}
+
+.topbar-left h2 {
+  margin: 0;
+  font-size: 18px;
+}
+
+/* Centro (Menú de navegación) */
+.topbar-center {
+  position: absolute;
+  left: 48%;
+  transform: translateX(-50%);
+  width: 600px; /* Alineado con el feed */
+  display: flex;
+  justify-content: center;
+}
+
+.topbar-center ul {
+  display: flex;
+  gap: 30px;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  justify-content: center;
+}
+
+.topbar-wrapper {
+  width: 600px; /* Igual que el feed */
+  display: flex;
+  justify-content: center;
+}
+
+.topbar-center li {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  cursor: pointer;
+  font-size: 15px;
+  transition: color 0.3s;
+}
+
+
+.topbar-center li:hover {
+  color: #007bff;
+}
+
+.topbar-right {
+  flex: 1; /* Ocupa el espacio disponible sin afectar el centro */
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding-right: 45px;
+}
+
+.profile-image {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+  cursor: pointer;
+}

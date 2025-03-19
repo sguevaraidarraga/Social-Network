@@ -1,15 +1,13 @@
 import React from "react";
-import Sidebar from "./Sidebar";
+import Topbar from "./Topbar";
 import Feed from "./Feed";
 import "../styles/Home.css";
 
 function Home() {
   return (
     <div className="home">
-      <Sidebar />
-      <div className="feed-container">
-        <Feed />
-      </div>
+      <Topbar />
+      <Feed />
     </div>
   );
 }

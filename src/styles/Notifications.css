@@ -1,0 +1,65 @@
+.notifications-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 10px;
+}
+
+.notifications-header h3 {
+    margin: 0;
+    font-size: 24px;
+}
+
+.close-notifications-btn {
+    background: none;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+    color: #666;
+}
+
+.close-notifications-btn:hover {
+    color: #000;
+}
+
+/* Separador */
+.notifications-divider {
+    border: none;
+    height: 1px;
+    background: #ddd;
+    margin: 15px 0;
+}
+
+/* Lista de notificaciones */
+.notifications-list ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.notifications-list li {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.notification-icon {
+    color: #007bff;
+    font-size: 14px;
+}
+
+.notifications-list li:hover {
+    background: #f5f5f5;
+    border-radius: 5px;
+}
+
+/* Mensaje cuando no hay notificaciones */
+.no-notifications {
+    color: #999;
+    font-style: italic;
+    text-align: center;
+    margin-top: 10px;
+}
