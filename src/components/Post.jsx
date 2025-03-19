@@ -36,7 +36,8 @@ function Post({ name, username, userImage, postImage, description }) {
   return (
     <>
       <div className="post">
-        {/* Usuario */}
+
+        {/* User Info */}
         <div className="post-header">
           <img src={userImage} alt="User" className="user-image" />
           <div className="user-info">
@@ -45,13 +46,13 @@ function Post({ name, username, userImage, postImage, description }) {
           </div>
         </div>
 
-        {/* Imagen del post con doble clic para dar like */}
+        {/* Image and doubleclick like */}
         <div className="post-image-container" onDoubleClick={handleDoubleClickLike}>
           <img src={postImage} alt="Post" className="post-image" />
           {showHeart && <AiFillHeart className="big-heart" />}
         </div>
 
-        {/* Acciones */}
+        {/* Actions */}
         <div className="post-actions">
           <button className="like-button" onClick={handleLike}>
             {liked ? <AiFillHeart className="icon liked" /> : <AiOutlineHeart className="icon" />}
@@ -61,13 +62,13 @@ function Post({ name, username, userImage, postImage, description }) {
           </button>
         </div>
 
-        {/* Información del post */}
+        {/* Post Info */}
         <div className="post-info">
           <p className="post-likes">{likes} likes</p>
           <p className="post-description"><strong>{username}</strong> {description}</p>
         </div>
 
-        {/* Sección para añadir comentario */}
+        {/* Add Comment */}
         <div className="comment-section">
           <form onSubmit={handleComment} className="comment-form">
             <input type="text" name="comment" className="comment-input" placeholder="Add a comment..." autocomplete="off" />
@@ -76,7 +77,7 @@ function Post({ name, username, userImage, postImage, description }) {
         </div>
       </div>
 
-      {/* Modal de post */}
+      {/* Modal Post */}
       {showModal && (
         <PostModal 
           post={{ name, username, userImage, postImage, description, comments, handleComment }} 

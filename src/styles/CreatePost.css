@@ -1,0 +1,88 @@
+.create-post-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    border-bottom: 1px solid #ddd;
+}
+.create-post-header h3 {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 600;
+}
+.close-create-post-btn {
+    background: none;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+    color: #666;
+    transition: color 0.3s;
+}
+.close-create-post-btn:hover {
+    color: #000;
+}
+.create-post-content {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    padding: 20px;
+}
+.file-input-label {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    border: 2px dashed #bbb;
+    padding: 12px;
+    cursor: pointer;
+    font-size: 14px;
+    border-radius: 10px;
+    text-align: center;
+    color: #555;
+    transition: border-color 0.3s, color 0.3s;
+}
+.file-input-label:hover {
+    border-color: #007bff;
+    color: #007bff;
+}
+.file-input {
+    display: none;
+}
+.image-preview {
+    width: 100%;
+    max-height: 250px;
+    object-fit: cover;
+    border-radius: 10px;
+    border: 1px solid #ddd;
+    padding: 5px;
+}
+.description-input {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 14px;
+    resize: none;
+    height: 80px;
+    outline: none;
+}
+.description-input:focus {
+    border-color: #007bff;
+}
+.create-post-btn {
+    padding: 10px;
+    background: #007bff;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    transition: background 0.3s;
+}
+.create-post-btn:hover {
+    background: #0056b3;
+}
+.create-post-btn:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+}

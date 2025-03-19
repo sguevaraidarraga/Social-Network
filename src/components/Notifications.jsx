@@ -18,9 +18,7 @@ function Notifications({ isOpen, onClose }) {
           <FaTimes />
         </button>
       </div>
-
       <hr className="notifications-divider" />
-
       <div className="notifications-list">
         {notifications.length > 0 ? (
           <ul>

@@ -3,17 +3,16 @@
   display: flex;
   justify-content: center;
   align-items: flex-start;
-  height: calc(100vh - 60px); /* Resta la altura del Topbar */
+  height: calc(100vh - 60px);
   padding: 10px 0;
-  overflow-y: auto; /* El contenedor maneja el scroll */
-  scroll-behavior: smooth; /* Scroll más suave */
+  overflow-y: auto;
+  scroll-behavior: smooth;
 }
-
 .feed {
   max-width: 600px;
   width: 100%;
   display: flex;
   flex-direction: column;
-  align-items: center; /* Centra los posts en el eje horizontal */
-  gap: 10px; /* Espacio entre posts */
+  align-items: center;
+  gap: 10px;
 }

@@ -1,18 +1,13 @@
-/* ========================== */
-/* LISTA DE CHATS */
-/* ========================== */
 .chats-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 15px 20px;
 }
-
 .chats-header h3 {
     margin: 0;
     font-size: 18px;
 }
-
 .close-chats-btn {
     background: none;
     border: none;
@@ -20,76 +15,78 @@
     cursor: pointer;
     color: #666;
 }
-
 .close-chats-btn:hover {
     color: #000;
 }
-
-/* Separador */
 .chats-divider {
     border: none;
     height: 1px;
     background: #ddd;
     margin: 15px 0;
 }
-
-/* Lista de chats */
 .chats-list {
     display: flex;
     flex-direction: column;
     gap: 10px;
 }
-
 .chat-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
     padding: 10px;
     cursor: pointer;
-    border-radius: 5px;
+    border-radius: 10px;
     background: #f5f5f5;
     transition: background 0.2s;
 }
-
+.chat-profile-pic {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #ddd;
+}
+.chat-details {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    flex-grow: 1;
+    line-height: 0.35;
+}
 .chat-item:hover {
     background: #e0e0e0;
 }
-
 .chat-name {
     font-weight: bold;
+    font-size: 16px;
+    margin-bottom: 3px;
 }
 
 .chat-last-message {
     font-size: 13px;
     color: #666;
 }
-
-/* ========================== */
-/* CHAT INDIVIDUAL */
-/* ========================== */
 .chat-view {
     display: flex;
     flex-direction: column;
     height: 100%;
 }
-
-/* Header del chat con nombre y botón de regresar */
 .chat-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 15px 20px;
 }
-
 .chat-header h3 {
     margin: 0;
     font-size: 18px;
 }
-
 .back-btn {
     background: none;
     border: none;
     font-size: 18px;
     cursor: pointer;
 }
-
 .close-chat-btn {
     background: none;
     border: none;
@@ -97,22 +94,15 @@
     cursor: pointer;
     color: #666;
 }
-
 .close-chat-btn:hover {
     color: #000;
 }
-
-/* Separador entre secciones */
 .chat-divider {
     border: none;
     height: 1px;
     background: #ddd;
     margin: 10px 0;
 }
-
-/* ========================== */
-/* MENSAJES */
-/* ========================== */
 .chat-messages {
     flex-grow: 1;
     display: flex;
@@ -122,36 +112,26 @@
     overflow-y: auto;
     max-height: calc(100vh - 180px);
 }
-
-/* Mensajes individuales */
 .message {
     padding: 8px 12px;
     border-radius: 15px;
     max-width: 75%;
     font-size: 14px;
 }
-
 .received {
     background: #e0e0e0;
     align-self: flex-start;
 }
-
 .sent {
     background: #007bff;
     color: white;
     align-self: flex-end;
 }
-
-/* ========================== */
-/* INPUT DE MENSAJE */
-/* ========================== */
 .chat-input-form {
     padding: 15px 15px 0px 15px;
     background: white;
     border-top: 1px solid #ddd;
 }
-
-/* Contenedor del input y botón */
 .chat-input-container {
     display: flex;
     align-items: center;
@@ -160,8 +140,6 @@
     padding: 0px 12px;
     gap: 10px;
 }
-
-/* Input de mensaje */
 .chat-input {
     flex-grow: 1;
     border: none;
@@ -169,8 +147,6 @@
     font-size: 14px;
     outline: none;
 }
-
-/* Botón de enviar */
 .chat-send-btn {
     padding: 6px 12px;
     background: #007bff;
@@ -181,7 +157,6 @@
     font-size: 14px;
     transition: background 0.2s;
 }
-
 .chat-send-btn:hover {
     background: #0056b3;
 }

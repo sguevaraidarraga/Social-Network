@@ -3,38 +3,37 @@ import { AiOutlineClose, AiFillHeart, AiOutlineHeart } from "react-icons/ai";
 import "../styles/PostModal.css";
 
 function PostModal({ post, onClose, handleLike, liked, likes, showHeart }) {
-  if (!post) return null;
+  if(!post) return null;
 
   const [lastClickTime, setLastClickTime] = useState(0);
 
-  // Manejo del doble clic en la imagen
   const handleImageClick = () => {
     const currentTime = new Date().getTime();
-    if (currentTime - lastClickTime < 300) { // Doble clic detectado
+    if (currentTime - lastClickTime < 300) {
       handleLike();
     }
     setLastClickTime(currentTime);
   };
 
-  // Lista de comentarios incluyendo la descripción como el primero
   const allComments = [{ text: post.description, username: post.username }, ...post.comments.map(c => ({ text: c, username: post.username }))];
 
   return (
     <div className="modal-overlay" onClick={onClose}>
       <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-        {/* Botón de cierre con icono de "X" */}
+
+        {/* Exit icon */}
         <button className="close-modal" onClick={onClose}>
           <AiOutlineClose className="close-icon" />
         </button>
 
-        {/* Post dentro del modal */}
+        {/* Post in modal */}
         <div className="modal-post">
           <div className="modal-image-container" onClick={handleImageClick}>
             <img src={post.postImage} alt="Post" className="modal-image" />
             {showHeart && <AiFillHeart className="big-heart" />}
           </div>
           <div className="modal-comments-section">
-            {/* Info del usuario */}
+            {/* User Info */}
             <div className="modal-header">
               <div className="post-header">
                 <img src={post.userImage} alt="User" className="user-image" />
@@ -45,7 +44,7 @@ function PostModal({ post, onClose, handleLike, liked, likes, showHeart }) {
               </div>
             </div>
 
-            {/* Comentarios */}
+            {/* Comments */}
             <div className="modal-comments">
               {allComments.length > 0 ? (
                 allComments.map((c, index) => (
@@ -56,7 +55,7 @@ function PostModal({ post, onClose, handleLike, liked, likes, showHeart }) {
               )}
             </div>
 
-            {/* Sección de añadir comentario con botón de like a la izquierda */}
+            {/* Like and post button with comment box */}
             <div className="comment-section">
               <button className="like-button" onClick={handleLike}>
                 {liked ? <AiFillHeart className="icon liked" /> : <AiOutlineHeart className="icon" />}

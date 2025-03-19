@@ -1,4 +1,3 @@
-/* Fondo oscuro detrás del modal */
 .modal-overlay {
     position: fixed;
     top: 0;
@@ -11,7 +10,6 @@
     align-items: center;
     z-index: 1000;
 }
-
 .modal-content {
     display: flex;
     background: white;
@@ -23,14 +21,11 @@
     z-index: 1001;
     overflow-x: hidden;
 }
-
 .modal-post {
     display: flex;
     width: 100%;
     height: 100%;
 }
-
-/* Contenedor de la imagen */
 .modal-image-container {
     flex: 1;
     display: flex;
@@ -38,7 +33,6 @@
     justify-content: center;
     position: relative;
 }
-
 .modal-image {
     width: 100%;
     height: 100%;
@@ -47,8 +41,6 @@
     border-bottom-left-radius: 10px;
     cursor: pointer;
 }
-
-/* Animación de corazón en el modal */
 .modal-image-container .big-heart {
     position: absolute;
     top: 50%;
@@ -59,8 +51,6 @@
     opacity: 0.8;
     animation: fadeOut 1.2s ease-in-out forwards;
 }
-
-/* Sección de comentarios */
 .modal-comments-section {
     flex: 1;
     display: flex;
@@ -69,40 +59,32 @@
     align-items: stretch;
     overflow: hidden;
 }
-
-/* Header del usuario */
 .modal-header {
     flex-shrink: 0;
     border-bottom: 1px solid #ddd;
     padding: 10px;
 }
-
-/* Información del usuario */
 .modal-header .post-header {
     display: flex;
     align-items: center;
     padding: 0;
 }
-
 .user-info {
     display: flex;
     flex-direction: column;
     justify-content: center;
     gap: 2px;
 }
-
 .user-name {
     font-size: 16px;
     font-weight: bold;
     margin: 0;
 }
-
 .username {
     font-size: 14px;
     color: gray;
     margin: 0;
 }
-
 .user-image {
     width: 40px;
     height: 40px;
@@ -110,32 +92,24 @@
     margin-right: 10px;
     object-fit: cover;
 }
-
-/* Comentarios */
 .modal-comments {
     flex-grow: 1;
     overflow-y: auto;
     padding: 10px 0;
 }
-
 .modal-comments p {
     display: flex;
     align-items: center;
     padding-left: 10px;
     margin: 5px 0;
 }
-
-/* Espacio entre el nombre de usuario y el comentario */
 .modal-comments p strong {
     margin-right: 5px;
 }
-
 .no-comments {
     text-align: center;
     color: #888;
 }
-
-/* Sección para añadir comentario con botón de like a la izquierda */
 .modal-comments-section .comment-section {
     display: flex;
     align-items: center;
@@ -146,8 +120,6 @@
     max-width: 100%;
     border-top: 1px solid #ddd;
 }
-
-/* Botón de like */
 .like-button {
     display: flex;
     align-items: center;
@@ -158,17 +130,13 @@
     font-size: 22px;
     padding: 5px 0 5px 0;
 }
-
 .like-button .icon {
     font-size: 24px;
     color: #333;
 }
-
 .like-button .liked {
     color: #e0245e;
 }
-
-/* Input de comentario */
 .comment-input {
     flex-grow: 1;
     border: none;
@@ -180,8 +148,6 @@
     padding: 0;
     margin: 0;
 }
-
-/* Botón de enviar comentario */
 .comment-button {
     background: none;
     border: none;
@@ -195,12 +161,9 @@
     white-space: nowrap;
     margin-right: 5px;
 }
-
 .comment-button:hover {
     color: #0077cc;
 }
-
-/* Botón de cerrar modal con icono "X" */
 .close-modal {
     position: absolute;
     top: 10px;
@@ -209,12 +172,10 @@
     border: none;
     cursor: pointer;
 }
-
 .close-icon {
     font-size: 24px;
     color: white;
 }
-
 .close-icon:hover {
     color: #ccc;    
 }

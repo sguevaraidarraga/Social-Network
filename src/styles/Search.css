@@ -1,16 +1,13 @@
-/* Contenedor superior con título y botón de cerrar */
 .search-top {
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding-bottom: 10px;
 }
-
 .search-top h3 {
     margin: 0;
     font-size: 24px;
 }
-
 .close-search-btn {
     background: none;
     border: none;
@@ -18,16 +15,12 @@
     cursor: pointer;
     color: #666;
 }
-
 .close-search-btn:hover {
     color: #000;
 }
-
-/* Barra de búsqueda */
 .search-form {
     display: flex;
 }
-
 .search-input {
     width: 100%;
     padding: 10px;
@@ -35,40 +28,31 @@
     border-radius: 5px;
     font-size: 14px;
     outline: none;
-    background: #f1f1f1; /* Color de fondo gris claro */
+    background: #f1f1f1;
 }
-
-/* Separador */
 .search-divider {
     border: none;
     height: 1px;
     background: #ddd;
     margin: 15px 0;
 }
-
-/* Sección de recientes */
 .recent-searches {
     margin-top: 0;
 }
-
 .recent-searches h4 {
     font-size: 16px;
     margin-bottom: 10px;
 }
-
 .recent-searches ul {
     list-style: none;
     padding: 0;
     margin: 0;
 }
-
 .recent-searches li {
     padding: 8px;
     cursor: pointer;
     font-size: 14px;
 }
-
-/* Mensaje cuando no hay recientes */
 .no-recent {
     color: #999;
     font-style: italic;
