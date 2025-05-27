@@ -9,7 +9,7 @@ function PostModal({ post, onClose, handleLike, liked, likes, showHeart }) {
 
   const handleImageClick = () => {
     const currentTime = new Date().getTime();
-    if (currentTime - lastClickTime < 300) {
+    if(currentTime - lastClickTime < 300) {
       handleLike();
     }
     setLastClickTime(currentTime);
