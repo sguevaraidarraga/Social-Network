@@ -1,12 +1,12 @@
 import React from "react";
-import Topbar from "./Topbar";
+import Sidebar from "./Sidebar";
 import Feed from "./Feed";
 import "../styles/Home.css";
 
-function Home() {
+function Home({ onLogout }) {
   return (
     <div className="home">
-      <Topbar />
+      <Sidebar onLogout={onLogout} />
       <Feed />
     </div>
   );

@@ -42,17 +42,20 @@
 .post-image-container {
   position: relative;
   width: 100%;
-  height: 454.8px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
   overflow: hidden;
+  background: #f8f8f8;
+  padding: 0;
 }
 .post-image {
-  display: block;
   width: 100%;
-  height: 100%;
-  object-fit: cover;
-  position: absolute;
-  top: 0;
-  left: 0;
+  height: auto;
+  max-height: 700px;
+  object-fit: contain;
+  display: block;
+  position: static;
   cursor: pointer;
 }
 .big-heart {
@@ -149,4 +152,15 @@
 }
 .comment-button:hover {
   color: #0077cc;
+}
+.view-comments {
+  color: #888;
+  cursor: pointer;
+  margin: 4px 0 0 0;
+  font-size: 14px;
+  transition: color 0.2s, text-decoration 0.2s;
+}
+.view-comments:hover {
+  color: #007bff;
+  text-decoration: underline;
 }

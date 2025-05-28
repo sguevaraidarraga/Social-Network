@@ -1,100 +1,225 @@
-import { useSelector, useDispatch } from "react-redux";
-import { sendMessage } from "../features/chatSlice";
-import React, { useState } from "react";
-import SlidingSidebar from "./SlidingSidebar";
+import React, { useEffect, useState } from "react";
+import { getFirestore, collection, query, where, orderBy, onSnapshot, addDoc, serverTimestamp, getDocs } from "firebase/firestore";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
+import Sidebar from "./Sidebar";
 import "../styles/Chats.css";
-import { FaTimes, FaArrowLeft } from "react-icons/fa";
 
-function Chats({ isOpen, onClose }) {
-  const [activeChat, setActiveChat] = useState(null);
-  const [messageText, setMessageText] = useState("");
-  const chats = useSelector((state) => state.chat.chats);
-  const dispatch = useDispatch();
+function Chats() {
+  const [currentUser, setCurrentUser] = useState(undefined);
+  const [users, setUsers] = useState([]);
+  const [chats, setChats] = useState([]);
+  const [selectedChat, setSelectedChat] = useState(null);
+  const [messages, setMessages] = useState([]);
+  const [messageInput, setMessageInput] = useState("");
 
-  const chatList = [
-    { id: 1, name: "Alice", profilePic: "https://randomuser.me/api/portraits/women/1.jpg" },
-    { id: 2, name: "Bob", profilePic: "https://randomuser.me/api/portraits/men/2.jpg" },
-    { id: 3, name: "Charlie", profilePic: "https://randomuser.me/api/portraits/men/3.jpg" },
-  ];
+  // 1. Autenticación
+  useEffect(() => {
+    const auth = getAuth();
+    const unsub = onAuthStateChanged(auth, setCurrentUser);
+    return () => unsub();
+  }, []);
 
-  const handleSendMessage = (e) => {
-    e.preventDefault();
-    if (messageText.trim() !== "" && activeChat) {
-      dispatch(sendMessage({ userId: activeChat.id, message: { text: messageText, sender: "Me" } }));
-      setMessageText("");
+  // 2. Usuarios a los que puede enviar mensajes (solo los que sigue o lo siguen)
+  useEffect(() => {
+    if (!currentUser) return;
+    const db = getFirestore();
+    const unsub = onSnapshot(collection(db, "users"), snap => {
+      const allUsers = snap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+      // Solo mostrar usuarios que el usuario sigue o que lo siguen (pero no él mismo)
+      const myUser = allUsers.find(u => u.id === currentUser.uid);
+      let allowedIds = [];
+      if (myUser) {
+        const following = Array.isArray(myUser.following) ? myUser.following : [];
+        const followers = Array.isArray(myUser.followers) ? myUser.followers : [];
+        allowedIds = Array.from(new Set([...following, ...followers])).filter(id => id !== currentUser.uid);
+      }
+      setUsers(allUsers.filter(u => allowedIds.includes(u.id)));
+    });
+    return () => unsub();
+  }, [currentUser]);
+
+  // 3. Chats del usuario autenticado
+  useEffect(() => {
+    if (!currentUser) return;
+    const db = getFirestore();
+    const q = query(
+      collection(db, "chats"),
+      where("participants", "array-contains", currentUser.uid)
+    );
+    const unsub = onSnapshot(q, snap => {
+      setChats(snap.docs.map(doc => ({ id: doc.id, ...doc.data() })));
+    });
+    return () => unsub();
+  }, [currentUser]);
+
+  // 4. Mensajes del chat seleccionado
+  useEffect(() => {
+    if (!selectedChat) {
+      setMessages([]);
+      return;
     }
+    const db = getFirestore();
+    const q = query(
+      collection(db, "chats", selectedChat.id, "messages"),
+      orderBy("timestamp", "asc")
+    );
+    const unsub = onSnapshot(q, snap => {
+      setMessages(snap.docs.map(doc => ({ id: doc.id, ...doc.data() })));
+    });
+    return () => unsub();
+  }, [selectedChat]);
+
+  // 5. Iniciar chat (o seleccionar si ya existe)
+  const handleStartChat = async (userId) => {
+    if (!currentUser || userId === currentUser.uid) return;
+    const db = getFirestore();
+    const q = query(
+      collection(db, "chats"),
+      where("participants", "in", [
+        [currentUser.uid, userId],
+        [userId, currentUser.uid]
+      ])
+    );
+    const snap = await getDocs(q);
+    if (!snap.empty) {
+      setSelectedChat({ id: snap.docs[0].id, ...snap.docs[0].data() });
+      return;
+    }
+    const docRef = await addDoc(collection(db, "chats"), {
+      participants: [currentUser.uid, userId],
+      createdAt: serverTimestamp()
+    });
+    setSelectedChat({ id: docRef.id, participants: [currentUser.uid, userId] });
   };
 
+  // 6. Enviar mensaje
+  const handleSendMessage = async (e) => {
+    e.preventDefault();
+    if (!messageInput.trim() || !selectedChat || !currentUser) return;
+    const db = getFirestore();
+    await addDoc(collection(db, "chats", selectedChat.id, "messages"), {
+      sender: currentUser.uid,
+      text: messageInput,
+      timestamp: serverTimestamp()
+    });
+    setMessageInput("");
+  };
+
+  // 7. Mostrar nombre/foto del otro usuario en el chat
+  const getOtherUser = (chat) => {
+    if (!chat || !currentUser) return null;
+    const otherUid = chat.participants.find(uid => uid !== currentUser.uid);
+    return users.find(u => u.id === otherUid) || null;
+  };
+
+  // 8. Loader y protección
+  if (typeof currentUser === "undefined") {
+    return <div className="chats-loading">Loading...</div>;
+  }
+  if (!currentUser) {
+    return <div className="chats-loading">Please log in to use chats.</div>;
+  }
+
   return (
-    <SlidingSidebar isOpen={isOpen} onClose={onClose}>
-      {activeChat ? (
-        <div className="chat-view">
-          <div className="chat-header">
-            <button className="back-btn" onClick={() => setActiveChat(null)}>
-              <FaArrowLeft />
-            </button>
-            <h3>{activeChat.name}</h3>
-            <button className="close-chat-btn" onClick={onClose}>
-              <FaTimes />
-            </button>
-          </div>
-          <hr className="chat-divider" />
-
-          <div className="sidebar-content chat-messages">
-            {chats[activeChat.id]?.length ? (
-              chats[activeChat.id].map((msg, index) => (
-                <p key={index} className={`message ${msg.sender === "Me" ? "sent" : "received"}`}>
-                  {msg.text}
-                </p>
-              ))
-            ) : (
-              <p className="no-messages">No messages yet</p>
-            )}
-          </div>
-
-          <form className="sidebar-footer chat-input-form" onSubmit={handleSendMessage}>
-            <div className="chat-input-container">
-              <input
-                type="text"
-                placeholder="Type a message..."
-                className="chat-input"
-                value={messageText}
-                onChange={(e) => setMessageText(e.target.value)}
-              />
-              <button type="submit" className="chat-send-btn">Send</button>
+    <div style={{ display: "flex", height: "100vh" }}>
+      <Sidebar />
+      <div className="chats-page-container" style={{ display: "flex", flex: 1, marginLeft: 350 }}>
+        {/* Lista de chats a la izquierda */}
+        <div className="chats-list-panel">
+          <div className="chats-list-header">
+            <h3>Your Chats</h3>
+            <div className="chats-users-list">
+              <h4>Start New Chat</h4>
+              <ul>
+                {users.map(u => (
+                  <li key={u.id} onClick={() => handleStartChat(u.id)}>
+                    <img
+                      src={u.photoURL && typeof u.photoURL === "string" && u.photoURL.trim() !== "" ? u.photoURL : "https://randomuser.me/api/portraits/men/1.jpg"}
+                      alt={u.username}
+                      style={{ width: 28, height: 28, borderRadius: "50%", marginRight: 8 }}
+                    />
+                    {u.displayName || u.username}
+                  </li>
+                ))}
+              </ul>
             </div>
-          </form>
-        </div>
-      ) : (
-        <div className="chats-list-view">
-          <div className="chats-header">
-            <h3>Chats</h3>
-            <button className="close-chats-btn" onClick={onClose}>
-              <FaTimes />
-            </button>
           </div>
-          <hr className="chats-divider" />
-
-          <div className="sidebar-content chats-list">
-            {chatList.map((chat) => {
-              const lastMessage = chats[chat.id]?.length
-                ? chats[chat.id][chats[chat.id].length - 1].text
-                : "No messages yet";
-
+          <ul className="chats-list">
+            {chats.map(chat => {
+              const otherUser = getOtherUser(chat);
               return (
-                <div key={chat.id} className="chat-item" onClick={() => setActiveChat(chat)}>
-                  <img src={chat.profilePic} alt="Profile" className="chat-profile-pic" />
-                  <div className="chat-details">
-                    <p className="chat-name">{chat.name}</p>
-                    <p className="chat-last-message">{lastMessage}</p>
-                  </div>
-                </div>
+                <li
+                  key={chat.id}
+                  className={selectedChat && chat.id === selectedChat.id ? "active" : ""}
+                  onClick={() => setSelectedChat(chat)}
+                >
+                  {otherUser ? (
+                    <>
+                      <img
+                        src={otherUser.photoURL && typeof otherUser.photoURL === "string" && otherUser.photoURL.trim() !== "" ? otherUser.photoURL : "https://randomuser.me/api/portraits/men/1.jpg"}
+                        alt={otherUser.username}
+                        style={{ width: 28, height: 28, borderRadius: "50%", marginRight: 8 }}
+                      />
+                      {otherUser.displayName || otherUser.username}
+                    </>
+                  ) : (
+                    <>Chat</>
+                  )}
+                </li>
               );
             })}
-          </div>
+          </ul>
         </div>
-      )}
-    </SlidingSidebar>
+        {/* Mensajes del chat seleccionado a la derecha */}
+        <div className="chats-messages-panel">
+          {selectedChat ? (
+            <>
+              <div className="chats-messages-header">
+                {(() => {
+                  const otherUser = getOtherUser(selectedChat);
+                  return otherUser ? (
+                    <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+                      <img
+                        src={otherUser.photoURL && typeof otherUser.photoURL === "string" && otherUser.photoURL.trim() !== "" ? otherUser.photoURL : "https://randomuser.me/api/portraits/men/1.jpg"}
+                        alt={otherUser.username}
+                        style={{ width: 32, height: 32, borderRadius: "50%" }}
+                      />
+                      <h4 style={{ margin: 0 }}>
+                        {otherUser.displayName || otherUser.username}
+                      </h4>
+                    </div>
+                  ) : (
+                    <h4>Chat</h4>
+                  );
+                })()}
+              </div>
+              <div className="chats-messages">
+                <div className="messages-list">
+                  {messages.map(msg => (
+                    <div key={msg.id} className={`message${msg.sender === currentUser.uid ? " own" : ""}`}>
+                      <span>{msg.text}</span>
+                    </div>
+                  ))}
+                </div>
+                <form className="message-form" onSubmit={handleSendMessage}>
+                  <input
+                    type="text"
+                    value={messageInput}
+                    onChange={e => setMessageInput(e.target.value)}
+                    placeholder="Type a message..."
+                  />
+                  <button type="submit">Send</button>
+                </form>
+              </div>
+            </>
+          ) : (
+            <div className="chats-messages-empty">
+              <p>Select a chat to start messaging</p>
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
   );
 }
 
